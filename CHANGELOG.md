@@ -4,8 +4,25 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### New Features
+* **General Direct-URL Downloads**: Any link whose host isn't a Cloudflare/Turnstile provider (FuckingFast, DataNodes) now downloads straight over HTTP with resume/pause/progress — the queue is no longer limited to those providers. FuckingFast and DataNodes links still go through the Turnstile solver exactly as before.
+
 ### Fixes & Improvements
-* **Updates download in the queue (no more crash):** The auto-updater no longer uses a separate modal downloader (which could crash mid-download on large releases). A new version is now added to your normal download queue — start it when you like, and pause/resume it like any other download. When it finishes, choose **Install now** (restart) or **Install on next open**; a deferred update is offered again the next time you launch. Update downloads skip the Cloudflare/CAPTCHA step and are never auto-extracted.
+* **Updates download in the queue (no more crash):** The auto-updater no longer uses a separate modal downloader (which could crash mid-download on large releases). A new version is added to your normal download queue — start it when you like and pause/resume it like any other download; it saves to your Save-To folder. When it finishes, choose **Install now** (restart) or **Install on next open**. Update downloads skip the Cloudflare/CAPTCHA step and are never auto-extracted.
+* **Solver No Longer Spawns Endless Browsers**: A failed link resolution now tears the browser down instead of leaving a broken one to be reused, so Chromium no longer keeps re-spawning without ever reaching the download page; CAPTCHA timeouts are no longer auto-retried.
+* **Status Pill Overflow**: The STATUS tag no longer overflows into the PROGRESS column for long statuses (e.g. "Solving CAPTCHA...") — it's clamped to its column and elided.
+* **Release CI**: Fixed the Windows build workflow so it actually produces and attaches the release `.zip` (added `contents: write` permission; resolve bundled Chromium via Playwright's own path instead of a fragile glob).
+
+## [v1.5.1] - 2026-08-22
+
+### New Features
+* **DataNodes (`datanodes.to`) Provider Support**: Added native support for downloading from `datanodes.to` links. SilverSpoon automatically bypasses Cloudflare Turnstile, handles the countdown sequence, and captures direct CDN download links with resume and chunk streaming support.
+* **Smart URL & Filename Decoding**: Added automatic percent-encoding unquoting to ensure downloaded files and batch folder suggestions have clean, readable names across all supported providers.
+
+### Fixes & Improvements
+* **Build Size Reduction**: Excluded unused packages (`cv2`, `numpy`, `matplotlib`, `scipy`, `pandas`, `torch`, `PIL`, `PyQt6.QtPdf`, etc.) and pruned unnecessary Chromium locales and background service binaries, saving ~187 MB uncompressed.
+* **Build Process Safety**: Added automatic termination of active instances in `build_exe.bat` to prevent file-locking permissions errors during PyInstaller compilation.
+>>>>>>> upstream/main
 
 ## [v1.5.0] - 2026-08-21
 
