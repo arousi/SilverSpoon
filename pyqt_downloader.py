@@ -441,7 +441,7 @@ import scheduler as offpeak
 from ui_style import button_style
 from providers import needs_resolution, RESOLVER_HOSTS
 
-CURRENT_VERSION = "v1.5.1"
+CURRENT_VERSION = "v1.5.5"
 GITHUB_REPO = "billysams21/SilverSpoon"
 
 def get_settings_path():
