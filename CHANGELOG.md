@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [v1.5.5] - 2026-09-08
 
 ### New Features
 * **General Direct-URL Downloads**: Any link whose host isn't a Cloudflare/Turnstile provider (FuckingFast, DataNodes) now downloads straight over HTTP with resume/pause/progress — the queue is no longer limited to those providers. FuckingFast and DataNodes links still go through the Turnstile solver exactly as before.
