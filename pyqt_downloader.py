@@ -439,7 +439,7 @@ from update_logic import UpdateCheckerThread
 import datetime as _dt
 import scheduler as offpeak
 from ui_style import button_style
-from providers import needs_resolution, RESOLVER_HOSTS
+from providers import needs_resolution, filename_from_link, RESOLVER_HOSTS
 
 CURRENT_VERSION = "v1.5.5"
 GITHUB_REPO = "billysams21/SilverSpoon"
@@ -899,12 +899,10 @@ class DownloadSchedulerDialog(QDialog):
 
 class DownloadTask:
     def __init__(self, link, base_save_dir, folder_name=None):
-        import urllib.parse
         self.link = link.strip()
         self.base_save_dir = base_save_dir
-        
-        raw_part = self.link.split('#')[-1] if '#' in self.link else self.link.rstrip('/').split('/')[-1]
-        self.filename = urllib.parse.unquote(raw_part)
+
+        self.filename = filename_from_link(self.link)
         self.file_id = self.link.rstrip('/').split('/')[-1].split('#')[0]
         
         if folder_name:
@@ -2138,9 +2136,7 @@ class MainWindow(QMainWindow):
         # Try to guess a folder name from the first link
         suggested_folder = ""
         first_link = links[0]
-        raw_first = first_link.split('#')[-1] if '#' in first_link else first_link.rstrip('/').split('/')[-1]
-        import urllib.parse
-        first_filename = urllib.parse.unquote(raw_first)
+        first_filename = filename_from_link(first_link)
         match = re.search(r'(.*?)(\.part\d+\.rar|\.rar)$', first_filename, re.IGNORECASE)
         if match:
             suggested_folder = match.group(1).strip('._-')
